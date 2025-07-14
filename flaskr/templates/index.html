@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>TODO はなりきし</title>
+    </head>
+    <body>
+        <h1>TODOはなりきし</h1>
+        <h2>タスク</h2>
+            {% if tasks == [] %}
+                <p>ALL COMPLETE! </p>
+                <p>Let's take on a new challenge</p>
+            {% else %}
+                <table border="1">
+                    <tr>
+                        <th>タスク名</th>
+                        <th>期日</th>
+                        <th>ステータス</th>
+                        <th>優先度</th>
+                        <th>タグ</th>
+                    </tr>
+                    <!-- jinja2によるテンプレートエンジンによって -->
+                    <!-- pythonデータをHTMLに埋め込める -->
+                    {% for task in tasks %}
+                        <tr>
+                            <td><a href="{{ url_for('detail', task_id=task.id) }}">{{task.title}}</a></td>
+                            <td>{{task.deadline}}</td>
+                            <td>{{task.status}}</td>
+                            <td>{{task.priority}}</td>
+                            <td>{{task.tag}}</td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            {% endif %}
+            <a href="{{url_for('form')}}">編集</a>
+    </body>
+</html>

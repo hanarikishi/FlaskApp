@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <title>TODO はなりきし</title>
+    </head>
+    <body>
+        <h1>TODOはなりきし</h1>
+        <h2>タスク</h2>
+        <form method="post" action = "{{url_for('register')}}">
+            <table border="1">
+                <tr>
+                    <td>タスク名</td>
+                    <td>期限</td>
+                    <td>ステータス</td>
+                    <td>優先度</td>
+                    <td>タグ</td>
+                </tr>
+                <!-- 現在登録されているもの -->
+                {% for task in tasks %}
+                <tr>
+                    <td>{{task.title}}</td>
+                    <td>{{task.deadline}}</td>
+                    <td>{{task.status}}</td>
+                    <td>{{task.priority}}</td>
+                    <td>{{task.tag}}</td>
+                    <td><input type="checkbox" name="delete_ids" value="{{task.id}}"></td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td><input type="text" name="title"></td>
+                    <td><input type="data" name="deadline"></td>
+                    <td>
+                        <select name="status">
+                            <option value="未着手">未着手</option>
+                            <option value="作業中">作業中</option>
+                            <option value="完了">完了</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select name="priority">
+                            <option value="―">―</option>
+                            <option value="高">高</option>
+                            <option value="中">中</option>
+                            <option value="低">低</option>
+                        </select>
+                    </td>
+                    <td><input type="text" name="tag"></td>
+                </tr>
+            </table>
+            <br>
+            <input type="submit" value="登録">
+        </form>
+    </body>
+</html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>タスク詳細</title>
+</head>
+<body>
+    <h1>タスク詳細</h1>
+    {% if task %}
+        <p><strong>タスク名:</strong> {{ task.title }}</p>
+        <p><strong>期日:</strong> {{ task.deadline }}</p>
+        <p><strong>ステータス:</strong> {{ task.status }}</p>
+        <p><strong>優先度:</strong> {{ task.priority }}</p>
+        <p><strong>タグ:</strong> {{ task.tag }}</p>
+    {% else %}
+        <p>タスクが見つかりませんでした。</p>
+    {% endif %}
+    <a href="{{ url_for('index') }}">戻る</a>
+</body>
+</html>
