@@ -15,6 +15,7 @@
                     <td>ステータス</td>
                     <td>優先度</td>
                     <td>タグ</td>
+                    <td>メモ</td>
                 </tr>
                 <!-- 現在登録されているもの -->
                 {% for task in tasks %}
@@ -24,6 +25,7 @@
                     <td>{{task.status}}</td>
                     <td>{{task.priority}}</td>
                     <td>{{task.tag}}</td>
+                    <td>{{task.memo}}</td>
                     <td><input type="checkbox" name="delete_ids" value="{{task.id}}"></td>
                 </tr>
                 {% endfor %}
@@ -46,6 +48,7 @@
                         </select>
                     </td>
                     <td><input type="text" name="tag"></td>
+                    <td><textarea name="memo" placeholder="ここにメモを書いてください"></textarea></td>
                 </tr>
             </table>
             <br>
