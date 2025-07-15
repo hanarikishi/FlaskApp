@@ -14,6 +14,7 @@ def create_tasks_table():
                 deadline TEXT,
                 status TEXT,
                 priority TEXT,
-                tag TEXT)
+                tag TEXT,
+                memo TEXT)
                 ''')
     con.close()

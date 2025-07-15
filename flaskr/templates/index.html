@@ -18,6 +18,7 @@
                         <th>ステータス</th>
                         <th>優先度</th>
                         <th>タグ</th>
+                        <th>メモ</th>
                     </tr>
                     <!-- jinja2によるテンプレートエンジンによって -->
                     <!-- pythonデータをHTMLに埋め込める -->
@@ -28,6 +29,7 @@
                             <td>{{task.status}}</td>
                             <td>{{task.priority}}</td>
                             <td>{{task.tag}}</td>
+                            <td>{{task.memo}}</td>
                         </tr>
                     {% endfor %}
                 </table>
