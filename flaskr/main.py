@@ -23,6 +23,25 @@ def api_get_tasks():
     tasks = get_data()
     return jsonify(tasks)
 
+@app.route('/api/tasks', methods=['POST'])
+def api_create_task():
+    data     = request.get_json()
+    title    = data.get('title')
+    deadline = data.get('deadline')
+    status   = data.get('status')
+    priority = data.get('priority')
+    tag      = data.get('tag')
+    memo     = data.get('memo')
+    
+    con =sqlite3.connect(DATABASE)
+    con.execute(
+        'INSERT INTO tasks (title, deadline, status, priority, tag, memo) VALUES (?, ?, ?, ?, ?, ?)',
+        (title, deadline, status, priority, tag, memo)
+    )
+    con.commit()
+    con.close()
+    return jsonify({'message': 'Task created successfully'}), 201
+
 @app.route('/')
 def index():
     
