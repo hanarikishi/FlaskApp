@@ -1,8 +1,9 @@
 from flaskr import app
 from flask import render_template, request, redirect, url_for
 import sqlite3
-DATABASE ="database.db"
+from flask import jsonify
 
+DATABASE ="database.db"
 
 def get_data():
     # DBから取得
@@ -17,6 +18,10 @@ def get_data():
         tasks.append({'id':row[0],'title':row[1], 'deadline':row[2], 'status':row[3], 'priority':row[4], 'tag':row[5],'memo':row[6]})
     return tasks
 
+@app.route('/api/tasks', methods = ['GET'])
+def api_get_tasks():
+    tasks = get_data()
+    return jsonify(tasks)
 
 @app.route('/')
 def index():
@@ -24,7 +29,6 @@ def index():
     tasks = get_data()
     return render_template(
         'index.html',
-
         tasks=tasks
         )
     
