@@ -61,6 +61,17 @@ def api_update_task(task_id):
     con.close()
     return jsonify({'message': 'Task updated successfully'}), 200
 
+@app.route('/api/tasks/<int:task_id>', methods = ['DELETE'])
+def api_task_delete(task_id):
+
+    con = sqlite3.connect(DATABASE)
+    con.execute(
+        'DELETE FROM tasks WHERE id=?', (task_id,)
+    )
+    con.commit()
+    con.close()
+    return jsonify({'message': 'Task deleted successfully'}),200
+
 @app.route('/')
 def index():
 
