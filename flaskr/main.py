@@ -1,8 +1,9 @@
 from flaskr import app
 from flask import render_template, request, redirect, url_for
 import sqlite3
-DATABASE ="database.db"
+from flask import jsonify
 
+DATABASE ="database.db"
 
 def get_data():
     # DBから取得
@@ -17,20 +18,72 @@ def get_data():
         tasks.append({'id':row[0],'title':row[1], 'deadline':row[2], 'status':row[3], 'priority':row[4], 'tag':row[5],'memo':row[6]})
     return tasks
 
+@app.route('/api/tasks', methods = ['GET'])
+def api_get_tasks():
+    tasks = get_data()
+    return jsonify(tasks)
+
+@app.route('/api/tasks', methods=['POST'])
+def api_create_task():
+    data     = request.get_json()
+    title    = data.get('title')
+    deadline = data.get('deadline')
+    status   = data.get('status')
+    priority = data.get('priority')
+    tag      = data.get('tag')
+    memo     = data.get('memo')
+
+    con =sqlite3.connect(DATABASE)
+    con.execute(
+        'INSERT INTO tasks (title, deadline, status, priority, tag, memo) VALUES (?, ?, ?, ?, ?, ?)',
+        (title, deadline, status, priority, tag, memo)
+    )
+    con.commit()
+    con.close()
+    return jsonify({'message': 'Task created successfully'}), 201
+
+@app.route('/api/tasks/<int:task_id>', methods = ['PUT'])
+def api_update_task(task_id):
+    data     = request.get_json()
+    title    = data.get('title')
+    deadline = data.get('deadline')
+    status   = data.get('status')
+    priority = data.get('priority')
+    tag      = data.get('tag')
+    memo     = data.get('memo')
+
+    con =sqlite3.connect(DATABASE)
+    con.execute(
+        'UPDATE tasks SET title=?, deadline=?, status=?, priority=?, tag=?, memo=? WHERE id=?',
+        (title, deadline, status, priority, tag, memo, task_id)
+    )
+    con.commit()
+    con.close()
+    return jsonify({'message': 'Task updated successfully'}), 200
+
+@app.route('/api/tasks/<int:task_id>', methods = ['DELETE'])
+def api_task_delete(task_id):
+
+    con = sqlite3.connect(DATABASE)
+    con.execute(
+        'DELETE FROM tasks WHERE id=?', (task_id,)
+    )
+    con.commit()
+    con.close()
+    return jsonify({'message': 'Task deleted successfully'}),200
 
 @app.route('/')
 def index():
-    
+
     tasks = get_data()
     return render_template(
         'index.html',
-
         tasks=tasks
         )
-    
+
 @app.route('/form')
 def form():
-    
+
     tasks = get_data()
     return render_template(
         'form.html',
