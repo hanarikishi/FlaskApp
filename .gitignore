@@ -1,42 +1,43 @@
-# 仮想環境
+# --- 仮想環境 ---
 venv/
-.env/
 .venv/
+.env/
 
-# Pythonキャッシュファイル
+# --- Pythonキャッシュ ---
 __pycache__/
 *.py[cod]
 *$py.class
 
-# エディタやIDEの設定ファイル
+# --- IDE・エディタ ---
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Macの不要ファイル
+# --- Mac不要ファイル ---
 .DS_Store
 
-# ログファイル
+# --- ログ・設定 ---
 *.log
-
-# 環境変数ファイル
 .env
 
-# pytestなどのテストキャッシュ
+# --- テストキャッシュ ---
 .pytest_cache/
 .coverage
 htmlcov/
 
-# ビルド関連
+# --- ビルド関連 ---
 build/
 dist/
 *.egg-info/
 
-# Jupyter Notebookのチェックポイント
+# --- Jupyter ---
 .ipynb_checkpoints/
 
-# mypy や他の型チェックツール
+# --- 型チェック ---
 .mypy_cache/
 
-# 他に個人用で追加したいファイルがあれば、ここに追記
+# --- Node.js/Vue ---
+node_modules/
+dist/
+yarn.lock
