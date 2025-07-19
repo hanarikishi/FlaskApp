@@ -1,7 +1,7 @@
 # --- 仮想環境 ---
 venv/
 .venv/
-.env/
+#
 
 # --- Pythonキャッシュ ---
 __pycache__/
@@ -20,7 +20,6 @@ __pycache__/
 # --- ログ・設定 ---
 *.log
 .env
-
 # --- テストキャッシュ ---
 .pytest_cache/
 .coverage
@@ -39,5 +38,8 @@ dist/
 
 # --- Node.js/Vue ---
 node_modules/
-dist/
 yarn.lock
+!package-lock.json
+
+# データベース
+database.db

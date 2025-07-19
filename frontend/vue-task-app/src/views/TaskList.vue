@@ -14,9 +14,9 @@
 <script setup>
 import {ref, onMounted} from 'vue'
 
-const tasks = ref([])
+const tasks   = ref([])
 const loading = ref(true)
-const error = ref(null)
+const error   = ref(null)
 
 onMounted(async () =>{
   try {
