@@ -26,7 +26,7 @@ const fetchTasks = async () => {
     if (!res.ok) throw new Error('APIエラー')
     tasks.value = await res.json()
   } catch (err) {
-    error.value = err.message
+    error.value = err.messagegit
   } finally {
     loading.value = false
   }
