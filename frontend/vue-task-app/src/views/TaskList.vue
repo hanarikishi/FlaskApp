@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h2>Task</h2>
+    <h2>TaskList</h2>
     <div v-if="loading">loading...</div>
     <div v-else-if="error">Error：{{ error }}</div>
     <ul v-else>
