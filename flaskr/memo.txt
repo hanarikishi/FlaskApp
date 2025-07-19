@@ -1,3 +1,8 @@
-$env:FLASK_APP = "flaskr"
-$env:FLASK_ENV="development"
-flask run
+仮想環境
+source venv/bin/activate
+
+実行
+FLASK_APP=flaskr FLASK_ENV=development flask run
+
+仮想環境止める
+deactivate

@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2>New Task Create</h2>
+        <h2>{{ isEdit ? 'EditMode': 'Create Mode' }}</h2>
         <form @submit.prevent="sendPrevent">
             <!-- 一応divでまとめとく -->
             <div>
@@ -23,7 +23,7 @@
             </div>
 
             <div>
-                <lavel for="priority">Priority</lavel>
+                <label for="priority">Priority</label>
                 <select id="priority" v-model="form.priority" required>
                     <option>-</option>
                     <option>Low</option>
@@ -47,16 +47,19 @@
                 <label for="memo">Memo</label>
                 <textarea id="memo" v-model="form.memo"></textarea>
             </div>
-            <button type="submit">Create</button>
+            <button type="submit">{{ isEdit ? 'Update': 'Create' }}</button>
         </form>
     </div>
 </template>
 
 <script setup>
 import { reactive } from 'vue';
-import { useRouter} from 'vue-router'
+import { useRouter, useRoute} from 'vue-router'
+import { onMounted } from 'vue';
 
 const router = useRouter()
+const route = useRoute()
+const isEdit = !!route.params.id
 
 // 初期値
 const form =reactive({
@@ -69,13 +72,21 @@ const form =reactive({
 })
 
 const sendPrevent = async () => {
+    let method
+    let url
+    if(isEdit){
+        method = 'PUT'
+        url = `http://localhost:5000/api/tasks/${route.params.id}`
+    } else {
+        method = 'POST'
+        url = 'http://localhost:5000/api/tasks'
+    }
+
     try {
-        const res = await fetch('http://localhost:5000/api/tasks',{
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(form)
+        const res = await fetch(url,{
+            method,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(form) // JSON変換
         })
         // if 動いてる？
         if (!res.ok){
@@ -87,4 +98,15 @@ const sendPrevent = async () => {
         alert(err.message)
     }
 }
+
+onMounted(async () => {
+    if (isEdit) {
+        const res = await fetch('http://localhost:5000/api/tasks')
+        const tasks = await res.json()
+        const task = tasks.find(task => task.id === parseInt(route.params.id))
+        if(task) {
+            Object.assign(form,task)
+        }
+    }
+})
 </script>

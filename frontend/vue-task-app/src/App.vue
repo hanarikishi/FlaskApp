@@ -13,7 +13,7 @@
   </div>
   <HelloWorld msg="Vite + Vue" /> -->
 
-    <h1>TaskApp</h1>
+    <h1>TaskApp Wow Wow Wow</h1>
     <nav>
       <router-link to="/tasks">一覧 </router-link>
       <router-link to="/tasks/register">新規作成</router-link>
