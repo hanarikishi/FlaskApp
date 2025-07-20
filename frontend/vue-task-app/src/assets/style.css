@@ -71,6 +71,33 @@ textarea {
 }
 
 /* === TaskList === */
+/* === フィルター  === */
+.filter {
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  margin-bottom: 16px;
+  justify-content: center;
+}
+
+.filter-label {
+  white-space: nowrap;
+  font-weight: bold;
+  font-size: 0.95em;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.filter select,
+.filter-bar input {
+  padding: 6px 10px;
+  font-size: 0.95em;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* メイン部分 */
 .list {
   max-width: 700px;
   margin: 40px auto;
@@ -106,3 +133,4 @@ textarea {
   color: #555;
   margin: 10px 0;
 }
+

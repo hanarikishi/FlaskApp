@@ -1,6 +1,25 @@
+
 <template>
   <div class="list">
     <h2>タスク一覧</h2>
+
+    <div class="filter">
+      <label class="filter-label">
+        ステータス：
+        <select v-model="filterStatus">
+          <option value="">すべて</option>
+          <option>未着手</option>
+          <option>作業中</option>
+          <option>完了</option>
+        </select>
+      </label>
+
+      <label class="filter-label">
+        キーワード
+        <input type="text" v-model="filterKeyword" placeholder="タイトル or タグ検索">
+      </label>
+  </div>
+
     <div v-if="loading" class="status">loading...</div>
     <div v-else-if="error" class="error">Error：{{ error }}</div>
       <table>
@@ -14,7 +33,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="task in tasks" :key="task.id">
+          <tr v-for="task in filteredTasks" :key="task.id">
             <td>
               <router-link :to="`/tasks/${task.id}/edit`">
                 {{ task.title }}
@@ -50,12 +69,24 @@
 
 <script setup>
 import '../assets/style.css'
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 
 const tasks = ref([])
 const loading = ref(true)
 const error = ref(null)
+const filterStatus = ref('')
+const filterKeyword = ref('')
 
+const filteredTasks = computed(() =>{
+  return tasks.value.filter(task => {
+    const matchStatus = filterStatus.value === '' || task.status === filterStatus.value
+    const keyword = filterKeyword.value.toLowerCase()
+    const matchKeyword = task.title.toLowerCase().includes(keyword) || (task.tag || '').toLowerCase().includes(keyword)
+    return matchStatus && matchKeyword
+  })
+})
+
+// タスクの取得
 const fetchTasks = async () => {
   loading.value = true
   try {
