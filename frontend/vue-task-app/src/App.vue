@@ -1,38 +1,54 @@
-<script setup>
-// import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <div>
-    <!-- <a href="https://vite.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://vuejs.org/" target="_blank">
-      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
-    </a>
-  </div>
-  <HelloWorld msg="Vite + Vue" /> -->
+  <div class="container">
+    <h1>はなりきしタスク</h1>
 
-    <h1>TaskApp Wow Wow Wow</h1>
-    <nav>
-      <router-link to="/tasks">一覧 </router-link>
+    <nav class="nav">
+      <router-link to="/tasks">一覧</router-link>
       <router-link to="/tasks/register">新規作成</router-link>
     </nav>
-    <router-view />
+
+    <div class="view">
+      <router-view />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.container {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: sans-serif;
+  background: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+h1 {
+  font-size: 28px;
+  border-bottom: 2px solid #ddd;
+  padding-bottom: 8px;
+  margin-bottom: 20px;
 }
-.logo.vue:hover {
-  filter: drop-shadow(0 0 2em #42b883aa);
+
+.nav {
+  margin-bottom: 20px;
+}
+
+.nav a {
+  margin-right: 20px;
+  text-decoration: none;
+  color: #007bff;
+  font-weight: bold;
+}
+
+.nav a:hover {
+  color: #0056b3;
+}
+
+.view {
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
 }
 </style>

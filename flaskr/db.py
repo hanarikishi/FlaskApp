@@ -11,10 +11,11 @@ def create_tasks_table():
                 CREATE TABLE IF NOT EXISTS tasks(
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 title TEXT,
-                deadline TEXT,
                 status TEXT,
                 priority TEXT,
                 tag TEXT,
+                start TEXT,
+                deadline TEXT,
                 memo TEXT)
                 ''')
     con.close()

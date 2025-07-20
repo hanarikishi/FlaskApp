@@ -1,39 +1,34 @@
 <template>
     <div>
-        <h2>{{ isEdit ? 'EditMode': 'Create Mode' }}</h2>
-        <form @submit.prevent="sendPrevent">
+        <h2>{{ isEdit ? 'タスク更新': 'タスク作成' }}</h2>
+        <form @submit.prevent="sendPrevent" class="grid">
+
             <!-- 一応divでまとめとく -->
-            <div>
-                <label for="title">Task Name</label>
+            <div class="form-group">
+                <label for="title">タスク名</label>
                 <input id="title" v-model="form.title" required>
             </div>
 
-            <div>
-                <label for="deadline">Deadline</label>
-                <input id="deadline" v-model="form.deadline" type="date" required>
-            </div>
-
-            <div>
-                <label for="status">Status</label>
+            <div class="form-group">
+                <label for="status">状況</label>
                 <select id="status" v-model="form.status" required>
-                    <option>Todo</option>
-                    <option>Doing</option>
-                    <option>Done</option>
+                    <option>未着手</option>
+                    <option>作業中</option>
+                    <option>完了</option>
                 </select>
             </div>
 
-            <div>
-                <label for="priority">Priority</label>
+            <div class="form-group">
+                <label for="priority">優先度</label>
                 <select id="priority" v-model="form.priority" required>
                     <option>-</option>
-                    <option>Low</option>
-                    <option>Medium</option>
-                    <option>High</option>
+                    <option>低</option>
+                    <option>中</option>
+                    <option>高</option>
                 </select>
             </div>
-
-            <div>
-                <label for="tag">Tag</label>
+            <div class="form-full">
+                <label for="tag">タグ</label>
                 <!-- 
                 【追加する機能】
                 ・今あるタグのリストから選べる
@@ -43,16 +38,29 @@
                 <input id="tag" v-model="form.tag">
             </div>
 
-            <div>
-                <label for="memo">Memo</label>
+            <div class="form-group">
+                <label for="start">開始日</label>
+                <input id="start" v-model="form.start" type="date" required>
+            </div>
+
+            <div class="form-group">
+                <label for="deadline">終了日</label>
+                <input id="deadline" v-model="form.deadline" type="date" required>
+            </div>
+
+            <div class="form-full">
+                <label for="memo">メモ</label>
                 <textarea id="memo" v-model="form.memo"></textarea>
             </div>
-            <button type="submit">{{ isEdit ? 'Update': 'Create' }}</button>
+            <div class="form-submit">
+                <button type="submit" class="sub-btn">{{ isEdit ? '更新': '新規作成' }}</button>
+            </div>
         </form>
     </div>
 </template>
 
 <script setup>
+import '../assets/style.css'
 import { reactive } from 'vue';
 import { useRouter, useRoute} from 'vue-router'
 import { onMounted } from 'vue';
@@ -64,10 +72,11 @@ const isEdit = !!route.params.id
 // 初期値
 const form =reactive({
     title: '',
-    deadline: '',
-    status: 'Todo',
+    status: '未着手',
     priority: '-',
     tag: '',
+    start: '',
+    deadline: '',
     memo: ''
 })
 
