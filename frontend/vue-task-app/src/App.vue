@@ -1,3 +1,4 @@
+<!-- FlaskApp/frontend/vue-task-app/src/App.vue -->
 <template>
   <div class="container">
     <h1>はなりきしタスク</h1>
