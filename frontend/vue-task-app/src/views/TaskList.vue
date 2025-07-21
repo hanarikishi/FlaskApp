@@ -64,7 +64,6 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import GanttChart from './GanttChart.vue'
 
 const tasks = ref([])
 const loading = ref(true)

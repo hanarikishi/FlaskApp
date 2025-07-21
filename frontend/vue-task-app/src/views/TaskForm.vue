@@ -30,13 +30,10 @@
             </div>
             <div class="form-full">
                 <label for="tag">タグ</label>
-                <!-- 
-                【追加する機能】
-                ・今あるタグのリストから選べる
-                ・新たにタグを作成したらリストに入る
-                ・入力中に予測してくれるやつ(オートコンプリート？)
-                -->
-                <input id="tag" v-model="form.tag">
+                <input id="tag" v-model="form.tag" list="tag-list" placeholder="タグ検索 or 選択">
+                <datalist id ="tag-list">
+                    <option v-for=" tag in tagList" :key="tag" :value="tag"></option>
+                </datalist>
             </div>
 
             <div class="form-group">
@@ -62,13 +59,14 @@
 
 <script setup>
 import '../assets/style.css'
-import { reactive } from 'vue';
+import { reactive , ref, onMounted} from 'vue';
 import { useRouter, useRoute} from 'vue-router'
-import { onMounted } from 'vue';
 
 const router = useRouter()
 const route = useRoute()
 const isEdit = !!route.params.id
+
+const tagList = ref([])
 
 // 初期値
 const form =reactive({
@@ -110,13 +108,20 @@ const sendPrevent = async () => {
 }
 
 onMounted(async () => {
-    if (isEdit) {
+    try{
         const res = await fetch('http://localhost:5000/api/tasks')
         const tasks = await res.json()
-        const task = tasks.find(task => task.id === parseInt(route.params.id))
-        if(task) {
-            Object.assign(form,task)
+
+        tagList.value = [...new Set(tasks.map(task => task.tag).filter(Boolean))]
+
+        if (isEdit) {
+            const task = tasks.find(task => task.id === parseInt(route.params.id))
+            if(task) {
+                Object.assign(form,task)
+            }
         }
+    } catch (err) {
+        console.error('タスク・タグ取得失敗',err)
     }
 })
 </script>
