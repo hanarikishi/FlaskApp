@@ -21,4 +21,4 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npx eslint . --ext .js,.vue
+        run: npx eslint .
