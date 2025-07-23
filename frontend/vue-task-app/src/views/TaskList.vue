@@ -1,65 +1,110 @@
 <!-- FlaskApp/frontend/vue-task-app/src/TaskList.vue -->
 <template>
-    <h2>タスク一覧</h2>
-    <div class="filter-bar">
-      <label class="filter-label">
-        ステータス：
-        <select v-model="filterStatus">
-          <option value="">すべて</option>
-          <option>未着手</option>
-          <option>作業中</option>
-          <option>完了</option>
-        </select>
-      </label>
+  <h2>タスク一覧</h2>
+  <div class="filter-bar">
+    <label class="filter-label">
+      ステータス：
+      <select v-model="filterStatus">
+        <option value="">すべて</option>
+        <option>未着手</option>
+        <option>作業中</option>
+        <option>完了</option>
+      </select>
+    </label>
 
-      <label class="filter-label">
-        キーワード：
-        <input type="text" v-model="filterKeyword" placeholder="タイトル or タグ検索">
-      </label>
-    </div>
+    <label class="filter-label">
+      キーワード：
+      <input
+        v-model="filterKeyword"
+        type="text"
+        placeholder="タイトル or タグ検索"
+      >
+    </label>
+  </div>
 
-    <div v-if="loading" class="status">loading...</div>
-    <div v-else-if="error" class="error">Error：{{ error }}</div>
+  <div
+    v-if="loading"
+    class="status"
+  >
+    loading...
+  </div>
+  <div
+    v-else-if="error"
+    class="error"
+  >
+    Error：{{ error }}
+  </div>
 
-    <table v-else class="task-table">
-      <thead>
-        <tr>
-          <th>タイトル</th>
-          <th>開始</th>
-          <th>期限</th>
-          <th>状態</th>
-          <th>優先度</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="task in filteredTasks" :key="task.id">
-          <td>
-            <router-link :to="`/tasks/${task.id}/edit`">
-              {{ task.title }}
-            </router-link>
-          </td>
-          <td><input type="date" v-model="task.start" @change="updateStatus(task)" /></td>
-          <td><input type="date" v-model="task.deadline" @change="updateStatus(task)" /></td>
-          <td>
-            <select v-model="task.status" @change="updateStatus(task)">
-              <option>未着手</option>
-              <option>作業中</option>
-              <option>完了</option>
-            </select>
-          </td>
-          <td>
-            <select v-model="task.priority" @change="updateStatus(task)">
-              <option>-</option>
-              <option>低</option>
-              <option>中</option>
-              <option>高</option>
-            </select>
-          </td>
-          <td><button @click="confirmDelete(task.id)" class="del-btn">Delete</button></td>
-        </tr>
-      </tbody>
-    </table>
+  <table
+    v-else
+    class="task-table"
+  >
+    <thead>
+      <tr>
+        <th>タイトル</th>
+        <th>開始</th>
+        <th>期限</th>
+        <th>状態</th>
+        <th>優先度</th>
+        <th />
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="task in filteredTasks"
+        :key="task.id"
+      >
+        <td>
+          <router-link :to="`/tasks/${task.id}/edit`">
+            {{ task.title }}
+          </router-link>
+        </td>
+        <td>
+          <input
+            v-model="task.start"
+            type="date"
+            @change="updateStatus(task)"
+          >
+        </td>
+        <td>
+          <input
+            v-model="task.deadline"
+            type="date"
+            @change="updateStatus(task)"
+          >
+        </td>
+        <td>
+          <select
+            v-model="task.status"
+            @change="updateStatus(task)"
+          >
+            <option>未着手</option>
+            <option>作業中</option>
+            <option>完了</option>
+          </select>
+        </td>
+        <td>
+          <select
+            v-model="task.priority"
+            @change="updateStatus(task)"
+          >
+            <option>-</option>
+            <option>低</option>
+            <option>中</option>
+            <option>高</option>
+          </select>
+        </td>
+        <td>
+          <button
+            class="del-btn"
+            @click="confirmDelete(task.id)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </template>
 
 <script setup>

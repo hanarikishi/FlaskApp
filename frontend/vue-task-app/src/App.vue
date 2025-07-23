@@ -4,8 +4,12 @@
     <h1>はなりきしタスク</h1>
 
     <nav class="nav">
-      <router-link to="/tasks">一覧</router-link>
-      <router-link to="/tasks/register">新規作成</router-link>
+      <router-link to="/tasks">
+        一覧
+      </router-link>
+      <router-link to="/tasks/register">
+        新規作成
+      </router-link>
     </nav>
 
     <div class="view">
