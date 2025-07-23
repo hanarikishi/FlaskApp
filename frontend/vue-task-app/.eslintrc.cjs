@@ -18,7 +18,7 @@ extends: [
   },
 // ルールの個別設定・無効か
   rules: {
-    'vue/multi-word-component-names': 'off', // 単語1つのコンポーネント名でもOKに
+    'vue/multi-word-component-names': 'off',
   },
 };
 
