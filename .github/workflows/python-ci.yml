@@ -19,16 +19,36 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install backend dependencies
+# pytestをインストール
+      - name: Install dependencies
         run: |
-          python -m venv venv
-          source venv/bin/activate
-          pip install -r requirements.txt || pip install flask
+          python -m pip install --upgrade pip
+          pip install pytest
 
-      - name: Run backend tests
+      - name: PyTest
         run: |
-          source venv/bin/activate
-          pytest || echo "⚠️ テストが未定義かも？"
+          python -m pytest test --junit-xml results/pytest.xml
+        continue-on-error: true
+
+      # テスト結果の表示
+      - name: Upload Unit Test Results
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: Unit Test Results (Python 3.7)
+          path: results/*.xml
+
+      - name: Download Artifacts
+        if: success() || failure()
+        uses: actions/download-artifact@v2
+        with:
+          path: artifacts
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        with:
+          junit_files: artifacts/**/*.xml
+
 
   frontend-build:
     runs-on: ubuntu-latest
