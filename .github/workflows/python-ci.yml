@@ -19,7 +19,7 @@ jobs:
 
       - name: Run tests
         run: |
-          run: PYTHONPATH=. pytest flaskr/tests/unit_test
+          PYTHONPATH=. pytest flaskr/tests/unit_test
           # pytest flaskr/tests/integration_test
 
       - name: Set up Node.js
