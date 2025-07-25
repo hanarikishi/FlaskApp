@@ -1,15 +1,19 @@
 from flask import Flask
-from flaskr import db
 from flask_cors import CORS
-app =Flask(__name__)
-CORS(app)
-db.create_tasks_table()
+from flaskr import db
+from flaskr.main import bp as main_bp
 
-# 今後こっちに移行するかも
-# def create_app():
-#     app = Flask(__name__)
-#     CORS(app)
-#     db.create_tasks_table()
-#     return app
+def create_app():
+    app = Flask(__name__)
+    CORS(app)
 
-import flaskr.main
+    # 設定に DATABASE を追加（任意）
+    app.config["DATABASE"] = "database.db"
+
+    # アプリコンテキスト内でテーブル作成
+    with app.app_context():
+        db.create_tasks_table()
+
+    app.register_blueprint(main_bp)
+
+    return app

@@ -14,7 +14,8 @@
                 <table border="1">
                     <tr>
                         <th>タスク名</th>
-                        <th>期日</th>
+                        <th>開始</th>
+                        <th>終了</th>
                         <th>ステータス</th>
                         <th>優先度</th>
                         <th>タグ</th>
@@ -25,6 +26,7 @@
                     {% for task in tasks %}
                         <tr>
                             <td><a href="{{ url_for('detail', task_id=task.id) }}">{{task.title}}</a></td>
+                            <td>{{task.start}}</td>
                             <td>{{task.deadline}}</td>
                             <td>{{task.status}}</td>
                             <td>{{task.priority}}</td>

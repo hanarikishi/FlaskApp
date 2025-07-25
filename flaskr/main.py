@@ -1,13 +1,12 @@
-from flaskr import app
-from flask import render_template, request, redirect, url_for
+from flask import Blueprint, request, render_template, jsonify, redirect, url_for
 import sqlite3
-from flask import jsonify
+from flaskr.db import get_connection
 
-DATABASE ="database.db"
+bp = Blueprint('main', __name__)
 
 def get_data():
     # DBから取得
-    con = sqlite3.connect(DATABASE)
+    con = get_connection()
 
     #DBのtacksテーブルの全レコードを取得し、タプルのリストとして受け取る
     db_tasks = con.execute('SELECT * FROM tasks').fetchall()
@@ -18,12 +17,12 @@ def get_data():
         tasks.append({'id':row[0],'title':row[1], 'status':row[2], 'priority':row[3], 'tag':row[4], 'start':row[5], 'deadline':row[6],'memo':row[7]})
     return tasks
 
-@app.route('/api/tasks', methods = ['GET'])
+@bp.route('/api/tasks', methods = ['GET'])
 def api_get_tasks():
     tasks = get_data()
     return jsonify(tasks)
 
-@app.route('/api/tasks', methods=['POST'])
+@bp.route('/api/tasks', methods=['POST'])
 def api_create_task():
     data     = request.get_json()
     title    = data.get('title')
@@ -34,7 +33,7 @@ def api_create_task():
     deadline = data.get('deadline')
     memo     = data.get('memo')
 
-    con =sqlite3.connect(DATABASE)
+    con = get_connection()
     con.execute(
         'INSERT INTO tasks (title, status, priority, tag, start, deadline, memo) VALUES (?, ?, ?, ?, ?, ?, ?)',
         (title, status, priority, tag, start, deadline, memo)
@@ -43,7 +42,7 @@ def api_create_task():
     con.close()
     return jsonify({'message': 'Task created successfully'}), 201
 
-@app.route('/api/tasks/<int:task_id>', methods = ['PUT'])
+@bp.route('/api/tasks/<int:task_id>', methods = ['PUT'])
 def api_update_task(task_id):
     data     = request.get_json()
     title    = data.get('title')
@@ -54,7 +53,7 @@ def api_update_task(task_id):
     deadline = data.get('deadline')
     memo     = data.get('memo')
 
-    con =sqlite3.connect(DATABASE)
+    con = get_connection()
     con.execute(
         'UPDATE tasks SET title=?, status=?, priority=?, tag=?, start=?, deadline=?, memo=? WHERE id=?',
         (title, status, priority, tag, start, deadline, memo, task_id)
@@ -63,10 +62,10 @@ def api_update_task(task_id):
     con.close()
     return jsonify({'message': 'Task updated successfully'}), 200
 
-@app.route('/api/tasks/<int:task_id>', methods = ['DELETE'])
+@bp.route('/api/tasks/<int:task_id>', methods = ['DELETE'])
 def api_task_delete(task_id):
 
-    con = sqlite3.connect(DATABASE)
+    con = get_connection()
     con.execute(
         'DELETE FROM tasks WHERE id=?', (task_id,)
     )
@@ -74,7 +73,7 @@ def api_task_delete(task_id):
     con.close()
     return jsonify({'message': 'Task deleted successfully'}),200
 
-@app.route('/')
+@bp.route('/')
 def index():
 
     tasks = get_data()
@@ -83,7 +82,7 @@ def index():
         tasks=tasks
         )
 
-@app.route('/form')
+@bp.route('/form')
 def form():
 
     tasks = get_data()
@@ -92,7 +91,7 @@ def form():
         tasks=tasks
         )
 
-@app.route('/register',methods=['POST'])
+@bp.route('/register',methods=['POST'])
 def register():
     title = request.form['title']
     status = request.form['status']
@@ -103,7 +102,7 @@ def register():
     memo = request.form['memo']
     delete_ids = request.form.getlist('delete_ids')
 
-    con = sqlite3.connect(DATABASE)
+    con = get_connection()
     # 登録
     if title != "" and start != "" and deadline != "" and status != "" and priority != "" :
         con.execute('INSERT INTO tasks (title, status, priority, tag, start, deadline, memo) VALUES(?,?,?,?,?,?,?)',
@@ -117,9 +116,9 @@ def register():
     return redirect(url_for('index'))
 
 # /detail/task_idのURLにする
-@app.route('/detail/<int:task_id>')
+@bp.route('/detail/<int:task_id>')
 def detail(task_id):
-    con = sqlite3.connect(DATABASE)
+    con = get_connection()
 
     #(task_id,)のように「,」がないとタプルではなく単なる値を渡してしまう。
     db_task = con.execute('SELECT * FROM tasks WHERE id = ?', (task_id,)).fetchone()
