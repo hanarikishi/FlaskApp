@@ -17,9 +17,10 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run tests
-        run: |
-          PYTHONPATH=. pytest flaskr/tests/unit_test
+      - name: Run UnitTests
+        run:  PYTHONPATH=. pytest flaskr/tests/unit_test
+
+      # - name: Run IntegrationTests
           # pytest flaskr/tests/integration_test
 
       - name: Set up Node.js
